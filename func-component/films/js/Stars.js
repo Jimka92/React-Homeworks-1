@@ -1,9 +1,4 @@
 'use strict';
-
-function wrt(d) {
-    console.log(d);
-}
-
 function Stars({count}) {
   if(!count || count < 1 || count > 5) return;
   const stars = [];
