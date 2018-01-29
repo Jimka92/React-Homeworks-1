@@ -1,11 +1,5 @@
 'use strict';
-
-function wrt(d) {
-    console.log(d);
-}
-
 function FeedbackForm({data, onSubmit}) {
-    wrt(data);
     return (
         <form onSubmit={onSubmit} className="content__form contact-form">
             <div className="testing">
