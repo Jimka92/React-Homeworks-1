@@ -50,14 +50,14 @@ function Calendar({date}) {
             }
         }
 
-        weekDays.push(<td>{firstDayInLayout.getDate()}</td>);
-
+        const dayClasses = [];
         if ( firstDayInLayout.getMonth() !== date.getMonth() ) {
-             weekDays[weekDays.length - 1].props.className = 'ui-datepicker-other-month';
+            dayClasses.push('ui-datepicker-other-month');
+        } else if ( firstDayInLayout.getMonth() === date.getMonth() && firstDayInLayout.getDate() === date.getDate()) {
+            dayClasses.push('ui-datepicker-today');
         }
-        if ( firstDayInLayout.getMonth() === date.getMonth() && firstDayInLayout.getDate() === date.getDate()) {
-            weekDays[weekDays.length - 1].props.className = 'ui-datepicker-today';
-        }
+
+        weekDays.push(<td className={dayClasses}>{firstDayInLayout.getDate()}</td>);
 
         counter++;
         firstDayInLayout.setDate(firstDayInLayout.getDate() + 1);
