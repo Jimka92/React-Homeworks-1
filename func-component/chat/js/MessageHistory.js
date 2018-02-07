@@ -1,9 +1,5 @@
 'use strict';
 
-function wrt(d) {
-    console.log(d);
-}
-
 function MessageHistory(props) {
     if (!Array.isArray(props.list) || props.list.length < 1) return;
 
@@ -28,7 +24,8 @@ function MessageHistory(props) {
                 from={message.from}
                 message={{
                     text: message.text,
-                    time: message.time
+                    time: message.time,
+                    id: message.id
                 }}
             />
         );
