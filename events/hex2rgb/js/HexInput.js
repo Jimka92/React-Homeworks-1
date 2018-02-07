@@ -2,7 +2,7 @@
 
 const HexInput = props => {
   function onChange(e) {
-    props.onChange(e.nativeEvent.target.value);
+    props.onChange(e.currentTarget.value);
   }
 
   return (
