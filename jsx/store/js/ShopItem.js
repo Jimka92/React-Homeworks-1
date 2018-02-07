@@ -1,6 +1,6 @@
-const ShopItem = function (item) {
+const ShopItem = function (props) {
   const {brand, title, description, descriptionFull,
-        price, currency} = item.item;
+        price, currency} = props.item;
   return(
       <div className="main-content">
           <h2>{brand}</h2>
@@ -12,7 +12,7 @@ const ShopItem = function (item) {
           </div>
           <div className="divider"></div>
           <div className="purchase-info">
-              <div className="price">{price + currency}</div>
+              <div className="price">{currency + price.toFixed(2)}</div>
               <button>Добавить в корзину</button>
           </div>
       </div>

@@ -1,6 +1,6 @@
 function Calendar({date}) {
-    const weekDay = getLocalWeekDay(date.getDay());
-    const month = getLocalMonth(date.getMonth());
+    const weekDay = getLocalWeekDay[date.getDay()];
+    const month = getLocalMonth[date.getMonth()];
 
 
     //Сгенерируем шапку календаря и систему колонок для таблицы
@@ -16,7 +16,7 @@ function Calendar({date}) {
     const dayTitles = [];
     for (let i = 1; i <= 7; i++){
         const num = i === 7 ? 0 : i;
-        const day = getLocalWeekDay(num);
+        const day = getLocalWeekDay[num];
         dayTitles.push(<th scope="col" title={day.full}>{day.short}</th>);
     }
 
@@ -36,21 +36,28 @@ function Calendar({date}) {
 
     //Заполним days нужной разметкой
     const days = [];
+    let weekDays = [];
     let counter = 0;
     while (firstDayInLayout.getTime() <= lastDayInLayout.getTime()){
         if ( counter % 7 === 0 ) {
-            days.push(<tr></tr>);
-            days[days.length - 1].props.children = [];
+            if (weekDays.length) {
+                days.push(
+                    <tr>
+                        {weekDays}
+                    </tr>
+                );
+                weekDays = [];
+            }
         }
-        days[days.length - 1].props.children.push(<td>{firstDayInLayout.getDate()}</td>);
 
+        const dayClasses = [];
         if ( firstDayInLayout.getMonth() !== date.getMonth() ) {
-             days[days.length - 1].props.children[days[days.length - 1].props.children.length - 1].props.className = 'ui-datepicker-other-month';
+            dayClasses.push('ui-datepicker-other-month');
+        } else if ( firstDayInLayout.getMonth() === date.getMonth() && firstDayInLayout.getDate() === date.getDate()) {
+            dayClasses.push('ui-datepicker-today');
         }
 
-        if ( firstDayInLayout.getMonth() === date.getMonth() && firstDayInLayout.getDate() === date.getDate()) {
-            days[days.length - 1].props.children[days[days.length - 1].props.children.length - 1].props.className = 'ui-datepicker-today';
-        }
+        weekDays.push(<td className={dayClasses}>{firstDayInLayout.getDate()}</td>);
 
         counter++;
         firstDayInLayout.setDate(firstDayInLayout.getDate() + 1);
@@ -88,91 +95,84 @@ function Calendar({date}) {
    );
 }
 
-function getLocalWeekDay(num) {
-    const day = {};
-    switch(num){
-        case 0:
-            day.short = 'Вс';
-            day.full = 'Воскресенье';
-            break;
-        case 1:
-            day.short = 'Пн';
-            day.full = 'Понедельник';
-            break;
-        case 2:
-            day.short = 'Вт';
-            day.full = 'Вторник';
-            break;
-        case 3:
-            day.short = 'Ср';
-            day.full = 'Среда';
-            break;
-        case 4:
-            day.short = 'Чт';
-            day.full = 'Четверг';
-            break;
-        case 5:
-            day.short = 'Пт';
-            day.full = 'Пятница';
-            break;
-        case 6:
-            day.short = 'Сб';
-            day.full = 'Суббота';
-            break;
-
+const getLocalWeekDay = [
+    {
+        short: 'Вс',
+        full: 'Воскресенье'
+    },
+    {
+        short: 'Пн',
+        full: 'Понедельник',
+    },
+    {
+        short: 'Вт',
+        full: 'Вторник',
+    },
+    {
+        short: 'Ср',
+        full: 'Среда',
+    },
+    {
+        short: 'Чт',
+        full: 'Четверг',
+    },
+    {
+        short: 'Пт',
+        full: 'Пятница',
+    },
+    {
+        short: 'Сб',
+        full: 'Суббота',
     }
-    return day
-}
+];
 
-function getLocalMonth(num) {
-    return [
-        {
-            default: 'Январь',
-            special: 'Января'
-        },
-        {
-            default: 'Февраль',
-            special: 'Февраля'
-        },
-        {
-            default: 'Март',
-            special: 'Марта'
-        },
-        {
-            default: 'Апрель',
-            special: 'Апреля'
-        },
-        {
-            default: 'Май',
-            special: 'Мая'
-        },
-        {
-            default: 'Июнь',
-            special: 'Июня'
-        },
-        {
-            default: 'Июль',
-            special: 'Июля'
-        },
-        {
-            default: 'Август',
-            special: 'Августа'
-        },
-        {
-            default: 'Сентябрь',
-            special: 'Сентября'
-        },
-        {
-            default: 'Октябрь',
-            special: 'Октября'
-        },
-        {
-            default: 'Ноябрь',
-            special: 'Ноября'
-        },
-        {
-            default: 'Декабрь',
-            special: 'Декабря'
-        },
-    ][num];
-}
+const getLocalMonth = [
+    {
+        default: 'Январь',
+        special: 'Января'
+    },
+    {
+        default: 'Февраль',
+        special: 'Февраля'
+    },
+    {
+        default: 'Март',
+        special: 'Марта'
+    },
+    {
+        default: 'Апрель',
+        special: 'Апреля'
+    },
+    {
+        default: 'Май',
+        special: 'Мая'
+    },
+    {
+        default: 'Июнь',
+        special: 'Июня'
+    },
+    {
+        default: 'Июль',
+        special: 'Июля'
+    },
+    {
+        default: 'Август',
+        special: 'Августа'
+    },
+    {
+        default: 'Сентябрь',
+        special: 'Сентября'
+    },
+    {
+        default: 'Октябрь',
+        special: 'Октября'
+    },
+    {
+        default: 'Ноябрь',
+        special: 'Ноября'
+    },
+    {
+        default: 'Декабрь',
+        special: 'Декабря'
+    },
+];
