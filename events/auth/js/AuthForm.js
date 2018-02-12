@@ -1,19 +1,18 @@
 'use strict';
 
-function AuthForm(props) {
+function AuthForm({onAuth}) {
   let form;
 
   function formSubmit(e) {
     e.preventDefault();
-
-    const name = form.querySelector('input[type="text"]').value;
-    const email = form.querySelector('input[type="email"]').value;
-    const password = form.querySelector('input[type="password"]').value;
+    const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
 
     if (!name || !email || !password)
       return null;
 
-    props.onAuth({
+    onAuth({
       name: name,
       email: email,
       password: password
@@ -21,7 +20,8 @@ function AuthForm(props) {
   }
 
   function inputValidate(e) {
-    const input = e.nativeEvent.target;
+    const input = e.currentTarget;
+    console.log(e);
     if (input.getAttribute('type') === 'email') {
       input.value = input.value.replace(/[^a-zA-Z0-9@.\-_]/, '');
     } else if (input.getAttribute('type') === 'password') {
@@ -38,24 +38,30 @@ function AuthForm(props) {
       ref={element => form = element}>
       <div className="Input">
         <input required
+               name="name"
                onChange={inputValidate}
                type="text"
-               placeholder="Имя"/>
+               placeholder="Имя"
+        />
         <label></label>
       </div>
       <div className="Input">
         <input
           type="email"
+          name="email"
           onChange={inputValidate}
-          placeholder="Электронная почта"/>
+          placeholder="Электронная почта"
+        />
         <label></label>
       </div>
       <div className="Input">
         <input
+          type="password"
+          name="password"
           required
           onChange={inputValidate}
-          type="password"
-          placeholder="Пароль"/>
+          placeholder="Пароль"
+        />
         <label></label>
       </div>
       <button type="submit">
