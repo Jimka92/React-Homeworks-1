@@ -21,6 +21,7 @@ function MessageHistory(props) {
         }
         return(
             <UsedComponent
+                key={message.id}
                 from={message.from}
                 message={{
                     text: message.text,
