@@ -2,8 +2,6 @@
 
 const YearTable = props => {
 
-    console.log('YearTable', props);
-
     return (
         <div>
             <h2>Year Table</h2>
