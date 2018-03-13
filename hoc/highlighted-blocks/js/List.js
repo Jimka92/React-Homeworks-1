@@ -21,22 +21,26 @@ function New(Component) {
   }
 }
 
+const
+  PopularVideo = Popular(Video),
+  NewVideo = New(Video),
+  PopularArticle = Popular(Article),
+  NewArticle = New(Article);
+
 const List = props => {
   return props.list.map(item => {
     switch (item.type) {
       case 'video':
-        const VideoItem = item.views >= 1000 ? Popular(Video) : New(Video);
+        const VideoComponent = item.views >= 1000 ? PopularVideo : NewVideo;
         return (
-          <VideoItem {...item} />
+          <VideoComponent {...item} />
         );
-
 
       case 'article':
-        const ArticleItem = item.views >= 1000 ? Popular(Article) : New(Article);
+        const ArticleComponent = item.views >= 1000 ? PopularArticle : NewArticle;
         return (
-          <ArticleItem {...item} />
+          <ArticleComponent {...item} />
         );
-
     }
   });
 };
