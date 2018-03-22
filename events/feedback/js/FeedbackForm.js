@@ -1,7 +1,6 @@
 'use strict';
 
 function FeedbackForm({data, onSubmit}) {
-  console.log(typeof onSubmit);
   function submitHandler(e) {
     e.preventDefault();
     if (typeof onSubmit !== 'function')
@@ -10,7 +9,15 @@ function FeedbackForm({data, onSubmit}) {
     const formData = new FormData(e.currentTarget);
     const object = {};
     formData.forEach(function (value, key) {
-      object[key] = value;
+      console.log(`key: ${key}, value: ${value}`);
+      if (object[key] === undefined) {
+        object[key] = value;
+      } else if (Array.isArray(object[key])) {
+        object[key] = [...object[key], value];
+      } else {
+        object[key] = [object[key], value];
+      }
+
     });
     const json = JSON.stringify(object);
     onSubmit(json);
@@ -31,7 +38,7 @@ function FeedbackForm({data, onSubmit}) {
           name="salutation"
           type="radio"
           value="Мистер"
-          defaultChecked
+          defaultChecked={data.salutation === 'Мистер'}
         />
         <label
           className="contact-form__label contact-form__label--radio"
@@ -45,7 +52,7 @@ function FeedbackForm({data, onSubmit}) {
           name="salutation"
           type="radio"
           value="Мисис"
-          checked={data.salutation === 'Мисис'}
+          defaultChecked={data.salutation === 'Мисис'}
         />
         <label className="contact-form__label contact-form__label--radio" htmlFor="salutation-mrs">Мисис</label>
         <input
@@ -54,7 +61,7 @@ function FeedbackForm({data, onSubmit}) {
           name="salutation"
           type="radio"
           value="Мис"
-          checked={data.salutation === 'Мис'}
+          defaultChecked={data.salutation === 'Мис'}
         />
         <label className="contact-form__label contact-form__label--radio" htmlFor="salutation-ms">
           Мис
@@ -67,7 +74,7 @@ function FeedbackForm({data, onSubmit}) {
           id="name"
           name="name"
           type="text"
-          value={data.name}
+          defaultValue={data.name}
         />
       </div>
       <div className="contact-form__input-group">
@@ -77,7 +84,7 @@ function FeedbackForm({data, onSubmit}) {
           id="email"
           name="email"
           type="email"
-          value={data.email}
+          defaultValue={data.email}
         />
       </div>
       <div className="contact-form__input-group">
@@ -86,7 +93,7 @@ function FeedbackForm({data, onSubmit}) {
           className="contact-form__input contact-form__input--select"
           id="subject"
           name="subject"
-          value={data.subject}
+          defaultValue={data.subject}
         >
           <option>У меня проблема</option>
           <option>У меня важный вопрос</option>
@@ -100,7 +107,7 @@ function FeedbackForm({data, onSubmit}) {
           name="message"
           rows="6"
           cols="65"
-          value={data.message}></textarea>
+          defaultValue={data.message}></textarea>
       </div>
       <div className="contact-form__input-group">
         <p className="contact-form__label--checkbox-group">Хочу получить:</p>
@@ -110,7 +117,7 @@ function FeedbackForm({data, onSubmit}) {
           name="snacks"
           type="checkbox"
           value="пицца"
-          checked={data.snacks.includes('пицца')}
+          defaultChecked={data.snacks.includes('пицца')}
         />
         <label className="contact-form__label contact-form__label--checkbox" htmlFor="snacks-pizza">Пиццу</label>
         <input
@@ -119,9 +126,19 @@ function FeedbackForm({data, onSubmit}) {
           name="snacks"
           type="checkbox"
           value="пирог"
-          checked={data.snacks.includes('пирог')}
+          defaultChecked={data.snacks.includes('пирог')}
         />
         <label className="contact-form__label contact-form__label--checkbox" htmlFor="snacks-cake">Пирог</label>
+
+        <input
+          className="contact-form__input contact-form__input--checkbox"
+          id="cola"
+          name="snacks"
+          type="checkbox"
+          value="Coca-Cola"
+          defaultChecked={data.snacks.includes('Coca-Cola')}
+        />
+        <label className="contact-form__label contact-form__label--checkbox" htmlFor="cola">Coca-Cola</label>
       </div>
       <button className="contact-form__button" type="submit">Отправить сообщение!</button>
       <output id="result"/>

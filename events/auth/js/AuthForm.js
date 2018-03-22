@@ -12,20 +12,21 @@ function AuthForm({onAuth}) {
     if (!name || !email || !password)
       return null;
 
-    onAuth({
-      name: name,
-      email: email,
-      password: password
-    });
+    if (Object.prototype.toString.call(onAuth) === '[object Function]') {
+      onAuth({
+        name: name,
+        email: email,
+        password: password
+      })
+    }
   }
 
   function inputValidate(e) {
     const input = e.currentTarget;
-    console.log(e);
     if (input.getAttribute('type') === 'email') {
-      input.value = input.value.replace(/[^a-zA-Z0-9@.\-_]/, '');
+      input.value = input.value.replace(/[^\D\d@.\-_]/, '');
     } else if (input.getAttribute('type') === 'password') {
-      input.value = input.value.replace(/[^a-zA-Z0-9_]/, '');
+      input.value = input.value.replace(/[^\D\d_]/, '');
     }
   }
 
@@ -42,6 +43,7 @@ function AuthForm({onAuth}) {
                onChange={inputValidate}
                type="text"
                placeholder="Имя"
+               maxLength={80}
         />
         <label></label>
       </div>
@@ -51,6 +53,7 @@ function AuthForm({onAuth}) {
           name="email"
           onChange={inputValidate}
           placeholder="Электронная почта"
+          maxLength={80}
         />
         <label></label>
       </div>
@@ -61,6 +64,7 @@ function AuthForm({onAuth}) {
           required
           onChange={inputValidate}
           placeholder="Пароль"
+          maxLength={80}
         />
         <label></label>
       </div>
