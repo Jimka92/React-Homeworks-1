@@ -27,7 +27,7 @@ Menu.propTypes = {
 
   title: PropTypes.string,
   version: (props, propName, componentName) => {
-    if (!/^[0-9]{1,2}\.[0-9]{1,2}$/.test(props[propName])) {
+    if (!/^\d+\.\d+(\.\d+)?$/.test(props[propName])) {
       return new Error(`Invalid prop ${propName} supplied to ${componentName}. Expecting something like 'xx.xx'. Validation failed.`);
     }
   },
